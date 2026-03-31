@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import API_URL from "./api";
 
 export default function Dashboard({ token }) {
   const [data, setData] = useState(null);
@@ -7,13 +8,12 @@ export default function Dashboard({ token }) {
   useEffect(() => {
     const fetchDashboard = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/dashboard", {
+        const res = await fetch(`${API_URL}/api/dashboard`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        // 🔥 HANDLE UNAUTHORIZED
         if (res.status === 401) {
           setError("Unauthorized. Please login again.");
           return;
@@ -21,7 +21,6 @@ export default function Dashboard({ token }) {
 
         const result = await res.json();
 
-        // 🔥 SAFETY CHECK
         if (!result || !result.stats) {
           setError("No dashboard data available");
           return;
@@ -39,10 +38,7 @@ export default function Dashboard({ token }) {
     }
   }, [token]);
 
-  // 🔥 LOADING
   if (!data && !error) return <p>Loading dashboard...</p>;
-
-  // 🔥 ERROR
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   const { stats, urgent = [], overdue = [], today = [] } = data;
@@ -51,7 +47,6 @@ export default function Dashboard({ token }) {
     <div style={{ maxWidth: "1000px", margin: "20px auto" }}>
       <h1>📊 Dashboard</h1>
 
-      {/* 🔥 ANALYTICS CARDS */}
       <div
         style={{
           display: "grid",
@@ -67,7 +62,6 @@ export default function Dashboard({ token }) {
         <Card title="Completion %" value={`${stats.completionRate || 0}%`} />
       </div>
 
-      {/* 🔥 TASK SECTIONS */}
       <Section title="🔥 Urgent Tasks" items={urgent} />
       <Section title="⚠️ Missed Tasks" items={overdue} />
       <Section title="📅 Today" items={today} />
@@ -75,7 +69,6 @@ export default function Dashboard({ token }) {
   );
 }
 
-// 🔹 CARD COMPONENT
 function Card({ title, value }) {
   return (
     <div
@@ -93,7 +86,6 @@ function Card({ title, value }) {
   );
 }
 
-// 🔹 SECTION COMPONENT
 function Section({ title, items = [] }) {
   return (
     <div

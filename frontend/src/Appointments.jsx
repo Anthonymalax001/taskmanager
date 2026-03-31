@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+const API = "https://taskmanager-u3hl.onrender.com";
+
 export default function Appointments({ token }) {
   const [patients, setPatients] = useState([]);
   const [appointments, setAppointments] = useState([]);
@@ -12,27 +14,30 @@ export default function Appointments({ token }) {
   // Fetch patients
   const fetchPatients = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/patients", {
+      const res = await fetch(`${API}/api/patients`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
       setPatients(Array.isArray(data) ? data : []);
     } catch (err) {
-      console.error(err);
+      console.error("Patients error:", err);
+      setPatients([]);
     }
   };
 
   // Fetch appointments
   const fetchAppointments = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/appointments", {
+      const res = await fetch(`${API}/api/appointments`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+
+      if (res.status === 401) return;
 
       const data = await res.json();
       setAppointments(Array.isArray(data) ? data : []);
     } catch (err) {
-      console.error(err);
+      console.error("Appointments error:", err);
       setAppointments([]);
     }
   };
@@ -52,7 +57,7 @@ export default function Appointments({ token }) {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/appointments", {
+      const res = await fetch(`${API}/api/appointments`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -68,12 +73,12 @@ export default function Appointments({ token }) {
 
       const data = await res.json();
 
-      if (data.error) {
-        alert(data.error);
+      if (!res.ok) {
+        alert(data.error || "Failed to create appointment");
         return;
       }
 
-      alert("Appointment created!");
+      alert("✅ Appointment created!");
 
       setTitle("");
       setPatientId("");
@@ -84,67 +89,104 @@ export default function Appointments({ token }) {
 
     } catch (err) {
       console.error(err);
-      alert("Failed to create appointment");
+      alert("Server error");
     }
   };
 
   return (
     <div style={{ maxWidth: "800px", margin: "40px auto" }}>
-      
-      <div style={{
-        background: "#fff",
-        padding: "20px",
-        borderRadius: "10px",
-        marginBottom: "30px"
-      }}>
+
+      {/* CREATE */}
+      <div style={card}>
         <h2>📅 Book Appointment</h2>
 
         <input
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-        /><br />
+          style={input}
+        />
 
-        <select value={patientId} onChange={(e) => setPatientId(e.target.value)}>
+        <select
+          value={patientId}
+          onChange={(e) => setPatientId(e.target.value)}
+          style={input}
+        >
           <option value="">Select patient</option>
           {patients.map((p) => (
             <option key={p.id} value={p.id}>{p.name}</option>
           ))}
-        </select><br />
+        </select>
 
         <input
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
-        /><br />
+          style={input}
+        />
 
         <input
           type="time"
           value={time}
           onChange={(e) => setTime(e.target.value)}
-        /><br />
+          style={input}
+        />
 
-        <button onClick={createAppointment}>Book</button>
+        <button onClick={createAppointment} style={button}>
+          Book Appointment
+        </button>
       </div>
 
+      {/* LIST */}
       <h2>Appointments</h2>
 
       {appointments.length === 0 ? (
         <p>No appointments</p>
       ) : (
         appointments.map((a) => (
-          <div key={a.id} style={{
-            border: "1px solid #ddd",
-            padding: "10px",
-            marginBottom: "10px",
-            borderRadius: "8px"
-          }}>
+          <div key={a.id} style={item}>
             <strong>{a.title}</strong>
-            <p>Patient: {a.patient_name}</p>
-            <p>{a.appointment_date} at {a.appointment_time}</p>
+            <p>👤 {a.patient_name}</p>
+            <p>📅 {a.appointment_date} | ⏰ {a.appointment_time}</p>
           </div>
         ))
       )}
     </div>
   );
 }
+
+// styles
+const card = {
+  background: "#fff",
+  padding: "20px",
+  borderRadius: "10px",
+  marginBottom: "30px",
+  boxShadow: "0 2px 6px rgba(0,0,0,0.1)"
+};
+
+const input = {
+  width: "100%",
+  padding: "10px",
+  marginBottom: "10px",
+  borderRadius: "6px",
+  border: "1px solid #ddd"
+};
+
+const button = {
+  width: "100%",
+  padding: "12px",
+  background: "#2563eb",
+  color: "#fff",
+  border: "none",
+  borderRadius: "6px",
+  cursor: "pointer",
+  fontWeight: "bold"
+};
+
+const item = {
+  border: "1px solid #ddd",
+  padding: "12px",
+  marginBottom: "10px",
+  borderRadius: "8px",
+  background: "#fff"
+};

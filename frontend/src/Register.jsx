@@ -1,13 +1,14 @@
 import { useState } from "react";
+import API_URL from "./api";
 
-export default function Register({ setToken, switchToLogin }) {
+export default function Register({ switchToLogin }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleRegister = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
+      const res = await fetch(`${API_URL}/api/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -24,14 +25,14 @@ export default function Register({ setToken, switchToLogin }) {
 
       if (res.ok) {
         alert("Registered successfully! Please login.");
-        switchToLogin(); // 👉 go to login page
+        switchToLogin();
       } else {
         alert(data.error || "Registration failed");
       }
 
     } catch (err) {
       console.error(err);
-      alert("Server error");
+      alert("Server error (backend may be waking up ⏳)");
     }
   };
 

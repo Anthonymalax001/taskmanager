@@ -1,4 +1,5 @@
 import { useState } from "react";
+import API_URL from "./api";
 
 export default function Login({ setToken, switchToRegister }) {
   const [email, setEmail] = useState("");
@@ -6,7 +7,7 @@ export default function Login({ setToken, switchToRegister }) {
 
   const handleLogin = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -16,7 +17,7 @@ export default function Login({ setToken, switchToRegister }) {
 
       const data = await res.json();
 
-      if (data.token) {
+      if (res.ok && data.token) {
         localStorage.setItem("token", data.token);
         setToken(data.token);
       } else {
@@ -24,7 +25,7 @@ export default function Login({ setToken, switchToRegister }) {
       }
     } catch (err) {
       console.error(err);
-      alert("Server error");
+      alert("Server error (backend may be waking up ⏳)");
     }
   };
 
@@ -105,7 +106,6 @@ const styles = {
     borderRadius: "8px",
     cursor: "pointer",
     fontWeight: "bold",
-    transition: "0.2s",
   },
   footer: {
     marginTop: "15px",

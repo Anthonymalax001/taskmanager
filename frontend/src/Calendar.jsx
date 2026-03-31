@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+const API = "https://taskmanager-u3hl.onrender.com";
+
 export default function Calendar({ token }) {
   const [tasks, setTasks] = useState([]);
   const [appointments, setAppointments] = useState([]);
@@ -7,20 +9,32 @@ export default function Calendar({ token }) {
 
   // Fetch tasks
   const fetchTasks = async () => {
-    const res = await fetch("http://localhost:5000/api/tasks", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const data = await res.json();
-    setTasks(data);
+    try {
+      const res = await fetch(`${API}/api/tasks`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const data = await res.json();
+      setTasks(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error(err);
+      setTasks([]);
+    }
   };
 
   // Fetch appointments
   const fetchAppointments = async () => {
-    const res = await fetch("http://localhost:5000/api/appointments", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const data = await res.json();
-    setAppointments(Array.isArray(data) ? data : []);
+    try {
+      const res = await fetch(`${API}/api/appointments`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const data = await res.json();
+      setAppointments(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error(err);
+      setAppointments([]);
+    }
   };
 
   useEffect(() => {
@@ -30,7 +44,7 @@ export default function Calendar({ token }) {
     }
   }, [token]);
 
-  // 🔥 FILTER BY DATE
+  // Filter
   const filteredTasks = tasks.filter((t) =>
     selectedDate
       ? t.due_date?.slice(0, 10) === selectedDate
@@ -47,34 +61,23 @@ export default function Calendar({ token }) {
     <div style={{ maxWidth: "1000px", margin: "30px auto" }}>
       <h1>📅 Smart Calendar</h1>
 
-      {/* DATE SELECTOR */}
+      {/* DATE */}
       <input
         type="date"
         value={selectedDate}
         onChange={(e) => setSelectedDate(e.target.value)}
-        style={{
-          padding: "10px",
-          marginBottom: "20px",
-          width: "100%",
-        }}
+        style={input}
       />
 
       {/* SUMMARY */}
-      <div style={{
-        display: "flex",
-        gap: "20px",
-        marginBottom: "20px"
-      }}>
+      <div style={summary}>
         <Box label="Tasks" value={filteredTasks.length} />
         <Box label="Appointments" value={filteredAppointments.length} />
       </div>
 
-      {/* GRID VIEW */}
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
-        gap: "20px"
-      }}>
+      {/* GRID */}
+      <div style={grid}>
+        
         {/* TASKS */}
         <div style={card}>
           <h2>📝 Tasks</h2>
@@ -101,7 +104,7 @@ export default function Calendar({ token }) {
               <div key={a.id} style={item}>
                 <strong>{a.title}</strong>
                 <p>{a.patient_name}</p>
-                <p>{new Date(a.appointment_date).toLocaleString()}</p>
+                <p>{a.appointment_date} {a.appointment_time}</p>
               </div>
             ))
           )}
@@ -111,17 +114,35 @@ export default function Calendar({ token }) {
   );
 }
 
-// 🔹 small components
+// styles
+const input = {
+  padding: "10px",
+  marginBottom: "20px",
+  width: "100%"
+};
+
+const summary = {
+  display: "flex",
+  gap: "20px",
+  marginBottom: "20px"
+};
+
+const grid = {
+  display: "grid",
+  gridTemplateColumns: "1fr 1fr",
+  gap: "20px"
+};
+
 const card = {
   background: "#fff",
   padding: "20px",
   borderRadius: "10px",
-  boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+  boxShadow: "0 2px 6px rgba(0,0,0,0.1)"
 };
 
 const item = {
   borderBottom: "1px solid #eee",
-  padding: "10px 0",
+  padding: "10px 0"
 };
 
 function Box({ label, value }) {
