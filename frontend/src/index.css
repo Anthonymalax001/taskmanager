@@ -1,0 +1,114 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f7fb;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container */
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Headings */
+h1, h2, h3 {
+  text-align: center;
+  color: #333;
+}
+
+/* Sections */
+.section {
+  background: white;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Inputs */
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* Buttons */
+button {
+  margin-top: 10px;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  background-color: #2563eb;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #1e40af;
+}
+
+/* Task cards */
+.task-card {
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  border-left: 5px solid #ccc;
+}
+
+/* High priority */
+.task-high {
+  border-left: 5px solid red;
+  background-color: #ffe5e5;
+}
+
+/* Completed */
+.task-completed {
+  opacity: 0.6;
+}
+/* CONTAINER */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tabs button {
+  padding: 10px 15px;
+  border: none;
+  background: black;
+  cursor: pointer;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.tabs button:hover {
+  background: green;
+}
+
+/* ACTIVE TAB */
+.tabs button:focus {
+  background: #2563eb;
+  color: white;
+}
+
+/* CONTENT */
+.tab-content {
+  background: gold;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
