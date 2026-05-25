@@ -24,18 +24,21 @@ export default function Login({ setToken, switchToRegister }) {
       } else {
         alert(data.error || "Login failed");
       }
+
     } catch (err) {
       console.error(err);
-      alert("Server error (backend may be waking up ⏳)");
+      alert("Server error (backend may be waking up )");
     }
   };
 
   return (
     <div style={styles.container}>
+
       <div style={styles.card}>
+
         <h1 style={styles.logo}>🏥</h1>
 
-        <h2 style={styles.title}>Welcome Back</h2>
+        <h2 style={styles.title}>Welcome Back </h2>
 
         <p style={styles.subtitle}>
           Login to your clinic dashboard
@@ -44,7 +47,7 @@ export default function Login({ setToken, switchToRegister }) {
         {/* EMAIL */}
         <input
           type="email"
-          placeholder="Enter email"
+          placeholder="Enter Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           style={styles.input}
@@ -52,39 +55,44 @@ export default function Login({ setToken, switchToRegister }) {
 
         {/* PASSWORD */}
         <div style={styles.passwordWrapper}>
+
           <input
             type={showPassword ? "text" : "password"}
-            placeholder="Enter password"
+            placeholder="Enter Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             style={styles.passwordInput}
           />
 
-          <button
-            type="button"
+          <span
             onClick={() => setShowPassword(!showPassword)}
-            style={styles.showButton}
+            style={styles.toggle}
           >
             {showPassword ? "Hide" : "Show"}
-          </button>
+          </span>
+
         </div>
 
-        {/* LOGIN BUTTON */}
+        {/* BUTTON */}
         <button onClick={handleLogin} style={styles.button}>
           Login
         </button>
 
-        {/* REGISTER LINK */}
+        {/* FOOTER */}
         <p style={styles.footer}>
           Don’t have an account?{" "}
+
           <span
             style={styles.link}
             onClick={switchToRegister}
           >
             Register
           </span>
+
         </p>
+
       </div>
+
     </div>
   );
 }
@@ -104,30 +112,30 @@ const styles = {
     width: "100%",
     maxWidth: "400px",
     background: "#ffffff",
-    padding: "35px 25px",
-    borderRadius: "18px",
-    boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
+    padding: "35px 24px",
+    borderRadius: "20px",
+    boxShadow: "0 12px 30px rgba(0,0,0,0.2)",
     boxSizing: "border-box",
   },
 
   logo: {
     textAlign: "center",
-    fontSize: "48px",
+    fontSize: "52px",
     marginBottom: "10px",
   },
 
   title: {
     textAlign: "center",
-    marginBottom: "8px",
+    marginBottom: "6px",
     color: "#0f172a",
-    fontSize: "28px",
+    fontSize: "30px",
   },
 
   subtitle: {
     textAlign: "center",
-    marginBottom: "25px",
+    marginBottom: "24px",
     color: "#64748b",
-    fontSize: "15px",
+    fontSize: "14px",
   },
 
   input: {
@@ -136,53 +144,54 @@ const styles = {
     marginBottom: "16px",
     borderRadius: "10px",
     border: "1px solid #d1d5db",
-    fontSize: "15px",
     outline: "none",
+    fontSize: "15px",
     boxSizing: "border-box",
   },
 
   passwordWrapper: {
     position: "relative",
+    width: "100%",
     marginBottom: "18px",
   },
 
   passwordInput: {
     width: "100%",
     padding: "14px",
-    paddingRight: "80px",
+    paddingRight: "75px",
     borderRadius: "10px",
     border: "1px solid #d1d5db",
-    fontSize: "15px",
     outline: "none",
+    fontSize: "15px",
     boxSizing: "border-box",
   },
 
-  showButton: {
+  toggle: {
     position: "absolute",
-    right: "10px",
+    right: "14px",
     top: "50%",
     transform: "translateY(-50%)",
-    border: "none",
-    background: "transparent",
+    fontSize: "14px",
+    fontWeight: "bold",
     color: "#2563eb",
     cursor: "pointer",
-    fontWeight: "bold",
+    userSelect: "none",
   },
 
   button: {
     width: "100%",
     padding: "14px",
     background: "#2563eb",
-    color: "#fff",
+    color: "#ffffff",
     border: "none",
     borderRadius: "10px",
     cursor: "pointer",
     fontWeight: "bold",
-    fontSize: "16px",
+    fontSize: "15px",
   },
 
   footer: {
-    marginTop: "22px",
+    marginTop: "20px",
     textAlign: "center",
     color: "#64748b",
     fontSize: "14px",
