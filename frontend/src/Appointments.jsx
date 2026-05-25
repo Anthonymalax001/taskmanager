@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const API = "https://taskmanager-u3hl.onrender.com";
+const API = "https://taskmanager-production-a175.up.railway.app";
 
 export default function Appointments({ token }) {
   const [patients, setPatients] = useState([]);
@@ -11,33 +11,36 @@ export default function Appointments({ token }) {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
 
-  // Fetch patients
+  // FETCH PATIENTS
   const fetchPatients = async () => {
     try {
-      const res = await fetch(`${API}/api/patients`, {
-        headers: { Authorization: `Bearer ${token}` },
+      const res = await fetch(`${API_URL}/api/patients`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
+
       const data = await res.json();
       setPatients(Array.isArray(data) ? data : []);
     } catch (err) {
-      console.error("Patients error:", err);
+      console.error(err);
       setPatients([]);
     }
   };
 
-  // Fetch appointments
+  // FETCH APPOINTMENTS
   const fetchAppointments = async () => {
     try {
       const res = await fetch(`${API}/api/appointments`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
-
-      if (res.status === 401) return;
 
       const data = await res.json();
       setAppointments(Array.isArray(data) ? data : []);
     } catch (err) {
-      console.error("Appointments error:", err);
+      console.error(err);
       setAppointments([]);
     }
   };
@@ -49,7 +52,7 @@ export default function Appointments({ token }) {
     }
   }, [token]);
 
-  // Create appointment
+  // CREATE APPOINTMENT
   const createAppointment = async () => {
     if (!title || !patientId || !date || !time) {
       alert("Fill all fields");
@@ -78,7 +81,7 @@ export default function Appointments({ token }) {
         return;
       }
 
-      alert("✅ Appointment created!");
+      alert("✅ Appointment created");
 
       setTitle("");
       setPatientId("");
@@ -94,27 +97,35 @@ export default function Appointments({ token }) {
   };
 
   return (
-    <div style={{ maxWidth: "800px", margin: "40px auto" }}>
-
-      {/* CREATE */}
-      <div style={card}>
-        <h2>📅 Book Appointment</h2>
+    <div
+      style={{
+        maxWidth: "900px",
+        margin: "20px auto",
+        padding: "10px",
+      }}
+    >
+      {/* CREATE CARD */}
+      <div style={styles.card}>
+        <h2 style={styles.heading}> Book Appointment</h2>
 
         <input
-          placeholder="Title"
+          placeholder="Appointment title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          style={input}
+          style={styles.input}
         />
 
         <select
           value={patientId}
           onChange={(e) => setPatientId(e.target.value)}
-          style={input}
+          style={styles.input}
         >
           <option value="">Select patient</option>
+
           {patients.map((p) => (
-            <option key={p.id} value={p.id}>{p.name}</option>
+            <option key={p.id} value={p.id}>
+              {p.name}
+            </option>
           ))}
         </select>
 
@@ -122,71 +133,115 @@ export default function Appointments({ token }) {
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
-          style={input}
+          style={styles.input}
         />
 
         <input
           type="time"
           value={time}
           onChange={(e) => setTime(e.target.value)}
-          style={input}
+          style={styles.input}
         />
 
-        <button onClick={createAppointment} style={button}>
+        <button onClick={createAppointment} style={styles.button}>
           Book Appointment
         </button>
       </div>
 
-      {/* LIST */}
-      <h2>Appointments</h2>
+      {/* APPOINTMENTS LIST */}
+      <div>
+        <h2 style={styles.sectionTitle}>Appointments</h2>
 
-      {appointments.length === 0 ? (
-        <p>No appointments</p>
-      ) : (
-        appointments.map((a) => (
-          <div key={a.id} style={item}>
-            <strong>{a.title}</strong>
-            <p>👤 {a.patient_name}</p>
-            <p>📅 {a.appointment_date} | ⏰ {a.appointment_time}</p>
+        {appointments.length === 0 ? (
+          <div style={styles.empty}>
+            No appointments yet
           </div>
-        ))
-      )}
+        ) : (
+          appointments.map((a) => (
+            <div key={a.id} style={styles.item}>
+              <h3 style={{ marginBottom: "8px" }}>
+                {a.title}
+              </h3>
+
+              <p style={styles.text}>
+                 {a.patient_name}
+              </p>
+
+              <p style={styles.text}>
+                 {a.appointment_date}
+              </p>
+
+              <p style={styles.text}>
+                 {a.appointment_time}
+              </p>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 }
 
-// styles
-const card = {
-  background: "#fff",
-  padding: "20px",
-  borderRadius: "10px",
-  marginBottom: "30px",
-  boxShadow: "0 2px 6px rgba(0,0,0,0.1)"
-};
+const styles = {
+  card: {
+    background: "#ffffff",
+    padding: "20px",
+    borderRadius: "14px",
+    boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
+    marginBottom: "25px",
+  },
 
-const input = {
-  width: "100%",
-  padding: "10px",
-  marginBottom: "10px",
-  borderRadius: "6px",
-  border: "1px solid #ddd"
-};
+  heading: {
+    marginBottom: "20px",
+    color: "#1e293b",
+    fontSize: "24px",
+  },
 
-const button = {
-  width: "100%",
-  padding: "12px",
-  background: "#2563eb",
-  color: "#fff",
-  border: "none",
-  borderRadius: "6px",
-  cursor: "pointer",
-  fontWeight: "bold"
-};
+  input: {
+    width: "100%",
+    padding: "12px",
+    marginBottom: "12px",
+    borderRadius: "8px",
+    border: "1px solid #d1d5db",
+    fontSize: "15px",
+    boxSizing: "border-box",
+  },
 
-const item = {
-  border: "1px solid #ddd",
-  padding: "12px",
-  marginBottom: "10px",
-  borderRadius: "8px",
-  background: "#fff"
+  button: {
+    width: "100%",
+    padding: "14px",
+    background: "#2563eb",
+    color: "#fff",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+    fontWeight: "bold",
+    fontSize: "15px",
+  },
+
+  sectionTitle: {
+    marginBottom: "15px",
+    color: "#1e293b",
+  },
+
+  item: {
+    background: "#fff",
+    padding: "16px",
+    borderRadius: "12px",
+    marginBottom: "12px",
+    boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+  },
+
+  text: {
+    margin: "4px 0",
+    color: "#475569",
+  },
+
+  empty: {
+    background: "#fff",
+    padding: "20px",
+    borderRadius: "10px",
+    textAlign: "center",
+    color: "#64748b",
+  },
 };

@@ -46,47 +46,97 @@ export default function App() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1 style={{ textAlign: "center" }}>Clinic Task Manager</h1>
-
-      {/* LOGOUT BUTTON */}
-      <button
-        onClick={() => {
-          localStorage.removeItem("token");
-          setToken(null);
-        }}
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#f1f5f9",
+        padding: "15px",
+      }}
+    >
+      {/* HEADER */}
+      <div
         style={{
-          position: "absolute",
-          top: 20,
-          right: 20,
-          padding: "8px 12px",
-          background: "#ef4444",
-          color: "#fff",
-          border: "none",
-          borderRadius: "6px",
-          cursor: "pointer",
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: "10px",
+          marginBottom: "20px",
         }}
       >
-        Logout
-      </button>
+        <h1
+          style={{
+            margin: 0,
+            fontSize: "clamp(22px, 5vw, 32px)",
+            color: "#1e293b",
+          }}
+        >
+          🏥 Clinic Task Manager
+        </h1>
+
+        {/* LOGOUT */}
+        <button
+          onClick={() => {
+            localStorage.removeItem("token");
+            setToken(null);
+          }}
+          style={{
+            padding: "10px 14px",
+            background: "#ef4444",
+            color: "#fff",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontWeight: "bold",
+          }}
+        >
+          Logout
+        </button>
+      </div>
 
       {/* TABS */}
       <div
         style={{
           display: "flex",
-          justifyContent: "center",
           gap: "10px",
           marginBottom: "20px",
+          overflowX: "auto",
+          paddingBottom: "10px",
         }}
       >
-        <Tab label="Dashboard" onClick={() => setActiveTab("dashboard")} active={activeTab === "dashboard"} />
-        <Tab label="Patients" onClick={() => setActiveTab("patients")} active={activeTab === "patients"} />
-        <Tab label="Tasks" onClick={() => setActiveTab("tasks")} active={activeTab === "tasks"} />
-        <Tab label="Calendar" onClick={() => setActiveTab("calendar")} active={activeTab === "calendar"} />
-        <Tab label="Appointments" onClick={() => setActiveTab("appointments")} active={activeTab === "appointments"} />
+        <Tab
+          label="Dashboard"
+          onClick={() => setActiveTab("dashboard")}
+          active={activeTab === "dashboard"}
+        />
+
+        <Tab
+          label="Patients"
+          onClick={() => setActiveTab("patients")}
+          active={activeTab === "patients"}
+        />
+
+        <Tab
+          label="Tasks"
+          onClick={() => setActiveTab("tasks")}
+          active={activeTab === "tasks"}
+        />
+
+        <Tab
+          label="Calendar"
+          onClick={() => setActiveTab("calendar")}
+          active={activeTab === "calendar"}
+        />
+
+        <Tab
+          label="Appointments"
+          onClick={() => setActiveTab("appointments")}
+          active={activeTab === "appointments"}
+        />
       </div>
 
-      {renderTab()}
+      {/* ACTIVE PAGE */}
+      <div>{renderTab()}</div>
     </div>
   );
 }
@@ -97,13 +147,17 @@ function Tab({ label, onClick, active }) {
     <button
       onClick={onClick}
       style={{
-        padding: "10px 20px",
-        borderRadius: "8px",
+        padding: "10px 18px",
+        borderRadius: "10px",
         border: "none",
         cursor: "pointer",
-        background: active ? "#2563eb" : "#000",
+        background: active ? "#2563eb" : "#0f172a",
         color: "#fff",
         fontWeight: "bold",
+        whiteSpace: "nowrap",
+        minWidth: "120px",
+        transition: "0.2s",
+        flexShrink: 0,
       }}
     >
       {label}
