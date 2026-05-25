@@ -33,60 +33,75 @@ export default function Register({ switchToLogin }) {
 
     } catch (err) {
       console.error(err);
-      alert("Server error (backend may be waking up )");
+      alert("Server error");
     }
   };
 
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <h2 style={styles.title}>Create Account </h2>
-        <p style={styles.subtitle}>Start managing your clinic</p>
 
+        <h2 style={styles.title}>Create Account</h2>
+
+        <p style={styles.subtitle}>
+          Start managing your clinic
+        </p>
+
+        {/* NAME */}
         <input
+          type="text"
           placeholder="Full Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           style={styles.input}
         />
 
+        {/* EMAIL */}
         <input
           type="email"
-          placeholder="Email"
+          placeholder="Email Address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           style={styles.input}
         />
 
         {/* PASSWORD */}
-        <div style={styles.passwordWrapper}>
+        <div style={styles.passwordContainer}>
           <input
             type={showPassword ? "text" : "password"}
-            placeholder="Password"
+            placeholder="Enter Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             style={styles.passwordInput}
           />
 
-          <button
-            type="button"
+          <span
             onClick={() => setShowPassword(!showPassword)}
-            style={styles.showButton}
+            style={styles.toggle}
           >
             {showPassword ? "Hide" : "Show"}
-          </button>
+          </span>
         </div>
 
-        <button onClick={handleRegister} style={styles.button}>
+        {/* BUTTON */}
+        <button
+          onClick={handleRegister}
+          style={styles.button}
+        >
           Register
         </button>
 
+        {/* FOOTER */}
         <p style={styles.footer}>
           Already have an account?{" "}
-          <span style={styles.link} onClick={switchToLogin}>
+          <span
+            style={styles.link}
+            onClick={switchToLogin}
+          >
             Login
           </span>
         </p>
+
       </div>
     </div>
   );
@@ -103,81 +118,84 @@ const styles = {
   },
 
   card: {
-    background: "#ffffff",
-    padding: "30px 20px",
-    borderRadius: "14px",
     width: "100%",
-    maxWidth: "380px",
-    boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
-    textAlign: "center",
+    maxWidth: "400px",
+    background: "#fff",
+    padding: "35px 25px",
+    borderRadius: "18px",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.18)",
     boxSizing: "border-box",
   },
 
   title: {
-    marginBottom: "5px",
-    fontSize: "28px",
+    textAlign: "center",
+    fontSize: "34px",
+    marginBottom: "10px",
+    color: "#111827",
   },
 
   subtitle: {
-    marginBottom: "20px",
+    textAlign: "center",
     color: "#6b7280",
-    fontSize: "14px",
+    marginBottom: "28px",
+    fontSize: "15px",
   },
 
   input: {
     width: "100%",
-    padding: "12px",
-    marginBottom: "15px",
-    borderRadius: "8px",
-    border: "1px solid #ddd",
-    outline: "none",
+    padding: "14px 16px",
+    marginBottom: "16px",
+    borderRadius: "10px",
+    border: "1px solid #d1d5db",
     fontSize: "15px",
+    outline: "none",
     boxSizing: "border-box",
   },
 
-  passwordWrapper: {
+  passwordContainer: {
     position: "relative",
     width: "100%",
-    marginBottom: "15px",
+    marginBottom: "18px",
   },
 
   passwordInput: {
     width: "100%",
-    padding: "12px",
-    paddingRight: "80px",
-    borderRadius: "8px",
-    border: "1px solid #ddd",
-    outline: "none",
+    padding: "14px 70px 14px 16px",
+    borderRadius: "10px",
+    border: "1px solid #d1d5db",
     fontSize: "15px",
+    outline: "none",
     boxSizing: "border-box",
   },
 
-  showButton: {
+  toggle: {
     position: "absolute",
-    right: "10px",
+    right: "16px",
     top: "50%",
     transform: "translateY(-50%)",
-    border: "none",
-    background: "transparent",
-    color: "#16a34a",
     cursor: "pointer",
-    fontWeight: "bold",
+    color: "#16a34a",
+    fontWeight: "600",
+    fontSize: "14px",
+    userSelect: "none",
   },
 
   button: {
     width: "100%",
-    padding: "12px",
+    padding: "14px",
     background: "#16a34a",
     color: "#fff",
     border: "none",
-    borderRadius: "8px",
-    cursor: "pointer",
+    borderRadius: "10px",
+    fontSize: "16px",
     fontWeight: "bold",
-    fontSize: "15px",
+    cursor: "pointer",
   },
 
   footer: {
-    marginTop: "15px",
+    marginTop: "22px",
+    textAlign: "center",
+    color: "#6b7280",
     fontSize: "14px",
   },
 
