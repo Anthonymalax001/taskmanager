@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const API = "https://taskmanager-production-a175.up.railway.app";
+const API = "https://taskmanager-3ups.onrender.com";
 
 export default function Appointments({ token }) {
   const [patients, setPatients] = useState([]);
