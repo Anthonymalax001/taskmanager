@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const API = "https://taskmanager-production-a175.up.railway.app";
+const API = "https://taskmanager-3ups.onrender.com";
 
 export default function Calendar({ token }) {
   const [tasks, setTasks] = useState([]);
@@ -10,7 +10,7 @@ export default function Calendar({ token }) {
   // FETCH TASKS
   const fetchTasks = async () => {
     try {
-      const res = await fetch(`${API}/api/tasks`, {
+      const res = await fetch(`${API_URL}/api/tasks`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -76,7 +76,7 @@ export default function Calendar({ token }) {
           fontSize: "clamp(24px, 5vw, 34px)",
         }}
       >
-        📅 Smart Calendar
+         Smart Calendar
       </h1>
 
       {/* DATE FILTER */}
@@ -97,7 +97,7 @@ export default function Calendar({ token }) {
       <div style={styles.grid}>
         {/* TASKS */}
         <div style={styles.card}>
-          <h2 style={styles.cardTitle}>📝 Tasks</h2>
+          <h2 style={styles.cardTitle}> Tasks</h2>
 
           {filteredTasks.length === 0 ? (
             <p style={styles.empty}>No tasks</p>
@@ -107,11 +107,11 @@ export default function Calendar({ token }) {
                 <strong>{t.title}</strong>
 
                 <p style={styles.text}>
-                  👤 {t.patient_name}
+                   {t.patient_name}
                 </p>
 
                 <p style={styles.text}>
-                  📌 {t.status}
+                   {t.status}
                 </p>
               </div>
             ))
@@ -120,7 +120,7 @@ export default function Calendar({ token }) {
 
         {/* APPOINTMENTS */}
         <div style={styles.card}>
-          <h2 style={styles.cardTitle}>📌 Appointments</h2>
+          <h2 style={styles.cardTitle}> Appointments</h2>
 
           {filteredAppointments.length === 0 ? (
             <p style={styles.empty}>No appointments</p>
@@ -130,15 +130,15 @@ export default function Calendar({ token }) {
                 <strong>{a.title}</strong>
 
                 <p style={styles.text}>
-                  👤 {a.patient_name}
+                   {a.patient_name}
                 </p>
 
                 <p style={styles.text}>
-                  📅 {a.appointment_date}
+                   {a.appointment_date}
                 </p>
 
                 <p style={styles.text}>
-                  ⏰ {a.appointment_time}
+                   {a.appointment_time}
                 </p>
               </div>
             ))

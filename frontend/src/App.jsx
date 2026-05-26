@@ -210,11 +210,11 @@ const styles = {
   },
 
   headerRight: {
-    display: "flex",
-    alignItems: "center",
-    gap: "10px",
-  },
-
+  display: "flex",
+  alignItems: "center",
+  gap: "10px",
+  position: "relative",
+},
   menuButton: {
     background: "#0f172a",
     color: "#fff",
@@ -236,12 +236,19 @@ const styles = {
   },
 
   mobileMenu: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "10px",
-    marginBottom: "20px",
-  },
-
+  position: "absolute",
+  top: "60px",
+  right: "0",
+  width: "220px",
+  background: "#ffffff",
+  borderRadius: "14px",
+  padding: "12px",
+  display: "flex",
+  flexDirection: "column",
+  gap: "10px",
+  boxShadow: "0 10px 25px rgba(0,0,0,0.15)",
+  zIndex: 1000,
+},
   desktopTabs: {
     display: "none",
   },
